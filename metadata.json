@@ -1,0 +1,5 @@
+{
+  "name": "NaijaMed Atlas",
+  "description": "An Open Source Traditional Medicine Atlas for Nigeria powered by RAG. It retrieves real-time research from PubMed to ground answers in scientific fact.",
+  "requestFramePermissions": []
+}
