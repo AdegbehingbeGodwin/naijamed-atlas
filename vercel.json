@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/api/pubmed/search",
+      "destination": "/api/pubmed-search"
+    },
+    {
+      "source": "/api/pubmed/fetch",
+      "destination": "/api/pubmed-fetch"
+    }
+  ]
+}

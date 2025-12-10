@@ -1,8 +1,8 @@
 import { PubMedArticle } from '../types';
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
-// For development, the proxy runs on port 5000
-// For production, you would deploy this proxy separately
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+// For development and Vercel deployment, using API routes
+// In Vercel, the routes are at /api/pubmed-search and /api/pubmed-fetch
 
 // Common conversational words to strip.
 // "treatment" and "cure" are removed to allow finding botanical descriptions that might not explicitly say "treatment" in the title/abstract keywords but contain the info.
@@ -38,7 +38,7 @@ const cleanQuery = (query: string): string => {
 const executeSearch = async (term: string): Promise<string[]> => {
   const encodedTerm = encodeURIComponent(term);
   // Using our proxy endpoint instead of direct PubMed API
-  const url = `${BASE_URL}/pubmed/search?term=${encodedTerm}`;
+  const url = `${BASE_URL}/pubmed-search?term=${encodedTerm}`;
 
   try {
     console.log("Making PubMed search request to:", url);
@@ -67,7 +67,7 @@ const executeSearch = async (term: string): Promise<string[]> => {
   } catch (error) {
     console.error("PubMed Search Error:", error);
     if (error instanceof TypeError && error.message.includes('fetch')) {
-      console.error("Network error - is the backend server running on http://localhost:5000?");
+      console.error("Network error - API route may not be working properly");
     }
     return [];
   }
@@ -117,7 +117,7 @@ export const fetchArticleDetails = async (ids: string[]): Promise<PubMedArticle[
 
   // Using our proxy endpoint instead of direct PubMed API
   const idsParam = ids.join(',');
-  const url = `${BASE_URL}/pubmed/fetch?ids=${idsParam}`;
+  const url = `${BASE_URL}/pubmed-fetch?ids=${idsParam}`;
 
   try {
     console.log("Making PubMed fetch request to proxy:", url);
@@ -202,7 +202,7 @@ export const fetchArticleDetails = async (ids: string[]): Promise<PubMedArticle[
   } catch (error) {
     console.error("Error fetching article details:", error);
     if (error instanceof TypeError && error.message.includes('fetch')) {
-      console.error("Network error - is the backend server running on http://localhost:5000?");
+      console.error("Network error - API route may not be working properly");
     }
     return [];
   }
